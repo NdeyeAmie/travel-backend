@@ -5,6 +5,13 @@ const ReservationControlleurs = require("../controlleurs/ReservationControlleurs
 // Create a new reservation route post
 router.post("/reservations", ReservationControlleurs.createReservation);
 
+// Get all reservation route get
+router.get("/reservations", ReservationControlleurs.getAllReservations);
 
-const url ='http://localhost:3000/reservations'
+// Get one reservation route get
+router.get("/reservations/:id", ReservationControlleurs.getOneReservation);
+
+// Delete one reservation route delete
+router.delete("/reservations/:id", ReservationControlleurs.deleteOneReservation);
+
 module.exports = router;
