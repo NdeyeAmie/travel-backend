@@ -40,7 +40,7 @@ const reservationSchema = new mongoose.Schema({
             enum: ['Ryanair', 'Air France', 'Lufthansa',
                  'Emirates', 'British Airways', 'Turkish Airlines', 
                  'Turkish Airlines', 'Turkish Airlines', 'Turkish Airlines',
-                  'Turkish Airlines', 'Turkish Airlines']
+                  'Turkish Airlines', 'Turkish Airlines','Air Senegal', 'Yassir Sn']
         },
         depart:{
             villeDepart: {

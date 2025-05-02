@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const UserSchema = new mongoose.Schema(
   {
@@ -12,11 +14,17 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
     },
     password: {
       type: String,
       required: true,
     },
+    // role: {
+    //   type: String,
+    //   enum: ["user", "admin"],
+    //   default: "user",
+    // },
     isAdmin: {
       type: Boolean,
       default: false,
@@ -25,20 +33,21 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-//comparer les mots de passe
-UserSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
-};
-
+// generer le token
 UserSchema.methods.generateToken = function () {
   return jwt.sign(
-    { id: this._id, isAdmin: this.isAdmin },
+    { id: this._id, email: this.email, role: this.role },
     process.env.JWT_SECRET,
     { expiresIn: "2h" }
   );
 }
 
-//hasher le mot de passe 
+UserSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+
+// hasher le mot de passe 
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();

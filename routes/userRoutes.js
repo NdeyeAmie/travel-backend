@@ -1,37 +1,27 @@
 const express = require("express");
-const User = require("../models/Users.js");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const { protect } = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/authMiddleware")
+const {createUsers,
+        loginUser, 
+        getUserProfile , 
+        updateUserProfile,
+        getAllUsers,
+        deleteUser
+    } = require("../controlleurs/usersController");
 
-//inscription
-router.post("/register", async (req, res) => {
-    console.log("🔔 Route /api/users/register hit", req.body);
-  const { username, email, password } = req.body;
+router.post("/api/users/register", createUsers);
 
-  try {
-    const userExist = await User.findOne({ email });
-    if (userExist) return res.status(400).json({ message: "Email déjà utilisé" });
+router.post("/api/users/login", loginUser);
 
-    const user = await User.create({ username, email, password });
-    const token = user.generateToken();
+router.get("/api/users/profile", protect, getUserProfile);
 
-    res.status(201).json({ token, user: { id: user._id, username, email } });
-  } catch (error) {
-    res.status(500).json({ message: "Erreur serveur" });
-  }
-});
+router.put("/api/users/update", protect, updateUserProfile);
 
-//get users
-router.get("/profile", protect, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("-password");
-    if (!user) return res.status(404).json({ message: "Utilisateur non trouvé" });
+router.get("/api/users/allusers", protect, getAllUsers);
 
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur serveur" });
-  }
-});
+router.delete("/api/users/:id", protect, deleteUser);
 
-module.exports = router;
+
+
+
+module.exports = router
