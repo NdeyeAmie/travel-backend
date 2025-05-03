@@ -11,7 +11,6 @@ const createUsers = async (req, res) => {
         const userExist = await users.findOne({ email });
         if (userExist) return res.status(400).json({ message: "Email deja utilisé" });
 
-        // const hashedPassword = await bcrypt.hash(password, 10);
 
         // creer l'utilisateur
         const user = await users.create({ username, email, password, role: "user" });

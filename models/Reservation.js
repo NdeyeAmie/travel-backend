@@ -73,7 +73,8 @@ const reservationSchema = new mongoose.Schema({
         classe: {
             type: String,
             required: true,
-            enum: ['Economy', 'Business', 'First']
+            enum: ['Economy', 'Business', 'First'],
+            default: 'Economy'
         },
         prix: {
             type: Number,
@@ -87,7 +88,12 @@ const reservationSchema = new mongoose.Schema({
         statut: {
             type: String,
             required: true,
-            enum: ['En attente', 'Confirmer', 'Annuler']
+            enum: ['En attente', 'Confirmer', 'Annuler'],
+            default: 'En attente'
+        },
+        duree: {
+            type: String,
+            required: true
         }
     }
     

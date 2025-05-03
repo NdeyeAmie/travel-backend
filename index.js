@@ -5,11 +5,14 @@ const connectDB = require("./config/db.js");
 const reservationRoutes = require("./routes/ReservationsRoutes");
 const UsersRoutes = require("./routes/userRoutes.js");
 
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('swagger-jsdoc');
+
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(reservationRoutes);
+app.use("/api/reservations",reservationRoutes);
 app.use(UsersRoutes);
 
 connectDB()
