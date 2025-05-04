@@ -127,8 +127,6 @@ const getAllUsers = async (req, res) => {
       res.status(500).json({ message: "Erreur serveur" });
     }
   };
-  
-
 
 //DELETE   
 const deleteUser = async (req, res) => {
