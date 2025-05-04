@@ -5,7 +5,7 @@ const User = require("../models/Users.js");
 // creation d'un utilisateur
 const createUsers = async (req, res) => {
     try {
-        const { username, email, password , isAdmin} = req.body;
+        const { prenom, nom, email, password , isAdmin} = req.body;
 
         // vérifier si l'utilisateur existe
         const userExist = await User.findOne({ email });
@@ -13,7 +13,7 @@ const createUsers = async (req, res) => {
 
 
         // creer l'utilisateur
-        const user = await User.create({ username, email, password, isAdmin });
+        const user = await User.create({ prenom, nom , email, password, isAdmin });
 
         // generer le token
         const token = user.generateToken();
@@ -23,9 +23,10 @@ const createUsers = async (req, res) => {
              message: "Utilisateur créé",
              user: {
                  id: user._id,
-                username,
-                   email,
-                   isAdmin
+                prenom,
+                nom,
+                email,
+                isAdmin
                 } ,
                 token
             });
@@ -57,7 +58,8 @@ const loginUser = async (req, res) => {
         message: "Connexion réussie",
         user: {
           id: user._id,
-          username: user.username,
+          prenom: user.prenom,
+          nom: user.nom,
           email: user.email,
           isAdmin: user.isAdmin,
         },
@@ -90,7 +92,8 @@ const getUserProfile = async (req, res) => {
       if (!user) return res.status(404).json({ message: "Utilisateur non trouvé" });
   
       // Mise à jour des champs si présents
-      user.username = req.body.username || user.username;
+      user.prenom = req.body.prenom || user.prenom;
+      user.nom = req.body.nom || user.nom;
       user.email = req.body.email || user.email;
   
       if (req.body.password) {
@@ -104,7 +107,8 @@ const getUserProfile = async (req, res) => {
         message: "Profil mis à jour",
         user: {
           id: updatedUser._id,
-          username: updatedUser.username,
+          prenom: updatedUser.prenom,
+          nom: updatedUser.nom,
           email: updatedUser.email,
           isAdmin: updatedUser.isAdmin,
         },
