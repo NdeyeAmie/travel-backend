@@ -24,11 +24,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // role: {
-    //   type: String,
-    //   enum: ["user", "admin"],
-    //   default: "user",
-    // },
+   
     isAdmin: {
       type: Boolean,
       default: false,
@@ -62,3 +58,4 @@ UserSchema.pre("save", async function (next) {
 });
 
 module.exports = mongoose.model("User", UserSchema);
+

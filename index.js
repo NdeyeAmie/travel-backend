@@ -4,6 +4,8 @@ const cors = require("cors");
 const connectDB = require("./config/db.js");
 const reservationRoutes = require("./routes/ReservationsRoutes");
 const UsersRoutes = require("./routes/userRoutes.js");
+const volsRoutes = require("./routes/volsRoutes.js")
+const fs = require("fs")
 
 // const swaggerUi = require('swagger-ui-express');
 // const swaggerDocument = require('swagger-jsdoc');
@@ -14,6 +16,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/api/reservations",reservationRoutes);
 app.use(UsersRoutes);
+app.use("/api/vols",volsRoutes)
 
 connectDB()
 .then(() => {

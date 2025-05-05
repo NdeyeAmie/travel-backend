@@ -3,8 +3,20 @@ const mongoose = require("mongoose")
 
 const createReservation = async (req, res) => {
     try {
-        const reservation = await Reservation.create(req.body)
-        res.status(201).json(reservation)
+
+        const reservationData = {
+            ...req.body,
+            dateDepart: new Date(req.body.dateDepart),
+            dateArrivee: new Date(req.body.dateArrivee)
+          }
+
+        const reservation = await Reservation.create(reservationData)
+        res.status(201).json({
+            success: true,
+          data: reservation,
+          message: "Réservation créée avec succès"
+        })
+        
         console.log("reservation created", reservation);
         
     } catch (error) {
